@@ -8,7 +8,7 @@ class Form extends Component {
   static propTypes = {
     onFieldChanged: PropTypes.func,
     formFields: PropTypes.array,
-    formName: PropTypes.string,
+    formIndex: PropTypes.number,
   };
 
   onTextChanged = (field, value) => {
@@ -28,7 +28,7 @@ class Form extends Component {
                   underlineShow={false}
                   onChange={(e) => {
                     this.props.onFieldChanged(
-                      this.props.formName,
+                      this.props.formIndex,
                       field.stateName,
                       e.target.value
                     )

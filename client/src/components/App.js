@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import styled from 'styled-components';
 import Paper from 'material-ui/Paper';
 
@@ -12,13 +13,13 @@ class App extends Component {
 
     this.state = {
       step: 0,
-      forms: {
-        form1: {
+      forms: [
+        {
           name: undefined,
           email: undefined,
           password: undefined,
         },
-        form2: {
+        {
           addressLine1: undefined,
           addressLine2: undefined,
           city: undefined,
@@ -26,13 +27,13 @@ class App extends Component {
           zipCode: undefined,
           phoneNumber: undefined,
         },
-        form3: {
+        {
           creditCardNumber: undefined,
           expiryDate: undefined,
           CVV: undefined,
           billingZip: undefined,
         },
-      }
+      ],
     };
   }
 
@@ -58,33 +59,32 @@ class App extends Component {
     ],
   ];
 
-  static formNames = [
-    'form1',
-    'form2',
-    'form3',
-  ];
+  /** checks if the current form is filled out
+   * @return {boolean} Whether the current form is filled out */
+  isCurrentFormFilledOut = () => {
+    let currentForm = this.state.forms[this.state.step];
 
-  onFieldChanged = (formName, fieldName, fieldData) => {
-    let forms = this.state.forms;
-    forms[formName][fieldName] = fieldData;
-
-    this.setState({ forms });
+    return !_.some(Object.values(currentForm), (field) => {
+      return field === undefined || field === '';
+    });
   }
 
-  getCurrentForm() {
-    return <Form formName={App.formNames[this.state.step]}
-      formFields={App.formFields[this.state.step]}
-      onFieldChanged={this.onFieldChanged}
-    />
+  onFieldChanged = (formIndex, fieldName, fieldData) => {
+    let forms = this.state.forms;
+    forms[formIndex][fieldName] = fieldData;
+
+    this.setState({ forms });
   }
 
   render() {
     return (
       <Container>
         <Paper style={{display:'flex', flexDirection: 'column', alignItems:'center', padding: '16px'}}>
-          {
-            this.getCurrentForm()
-          }
+          <h2>Checkout</h2>
+          <Form formIndex={this.state.step}
+            formFields={App.formFields[this.state.step]}
+            onFieldChanged={this.onFieldChanged}
+          />
 
           <br/>
 
@@ -104,6 +104,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
 
 export default App;
