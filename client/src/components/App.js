@@ -89,7 +89,7 @@ class App extends Component {
   }
 
   onSubmit = () => {
-    console.log('you have submitted!');
+    console.log(this.state.forms);
   }
 
   render() {
