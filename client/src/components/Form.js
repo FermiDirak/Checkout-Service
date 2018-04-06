@@ -8,7 +8,6 @@ class Form extends Component {
   static propTypes = {
     onFieldChanged: PropTypes.func,
     formFields: PropTypes.array,
-    formIndex: PropTypes.number,
   };
 
   onTextChanged = (field, value) => {
@@ -17,6 +16,7 @@ class Form extends Component {
 
   render() {
     let style = {marginLeft: '20px'};
+    console.log(this.props.formFields);
 
     return (
       <div style={{width: '300px'}}>
@@ -25,17 +25,17 @@ class Form extends Component {
             return (
               <div key={i}>
                 <TextField hintText={field.hint}
+                  value={field.default}
                   underlineShow={false}
                   onChange={(e) => {
                     this.props.onFieldChanged(
-                      this.props.formIndex,
                       field.stateName,
                       e.target.value
                     )
                   }}
                   type={field.sensitive ? 'password' : undefined}
                 />
-                <Divider style={{margin: '4px'}}/>
+                <Divider style={{margin: '6px', height: '2px'}}/>
               </div>
             )
           })

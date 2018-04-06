@@ -8,17 +8,17 @@ import FlatButton from 'material-ui/FlatButton';
 class PaginationButtons extends Component {
   static propTypes = {
     onBackClick: PropTypes.func,
-    onForwardClick: PropTypes.func,
+    onFowardClick: PropTypes.func,
     canGoBackward: PropTypes.bool,
     canGoForward: PropTypes.bool,
     onLastEntry: PropTypes.bool,
+    onSubmit: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
+  onClickNext = () => {
+    this.props.onLastEntry
+      ? this.props.onSubmit()
+      : this.props.onFowardClick();
   }
 
   render() {
@@ -31,7 +31,7 @@ class PaginationButtons extends Component {
         <RaisedButton label={this.props.onLastEntry ? 'Finish' : 'Next'}
           primary={true}
           disabled={!this.props.canGoForward}
-          onClick={this.props.onForwardClick}
+          onClick={this.onClickNext}
         />
       </Container>
     );
@@ -41,6 +41,8 @@ class PaginationButtons extends Component {
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  width: 200px;
 `;
 
 
